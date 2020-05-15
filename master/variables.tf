@@ -56,6 +56,12 @@ variable "tags" {
   description = "AWS tags to be applied to created resources."
 }
 
+variable "asg_tags" {
+  type = list
+  default = []
+  description = "AWS tags for the master autoscaling groups"
+}
+
 variable "target_group_arns" {
   type        = list(string)
   default     = []

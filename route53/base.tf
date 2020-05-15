@@ -82,7 +82,7 @@ resource "aws_route53_record" "etcd_a_nodes" {
   # If the expression in the following list itself returns a list, remove the
   # brackets to avoid interpretation as a list of lists. If the expression
   # returns a single list item then leave it as-is and remove this TODO comment.
-  records = [var.etcd_ip_addresses[count.index]]
+  records = [element(values(data.external.etcd_ip_addresses.result), count.index)]
 }
 
 resource "aws_route53_record" "etcd_cluster" {
@@ -93,3 +93,11 @@ resource "aws_route53_record" "etcd_cluster" {
   records = formatlist("0 10 2380 %s", aws_route53_record.etcd_a_nodes.*.fqdn)
 }
 
+data "external" "etcd_ip_addresses" {
+  program = ["bash", "${path.module}/find-asg-ip-addresses.sh"]
+  query = {
+    asg_a_name = element(var.etcd_autoscaling_groups, 0)
+    asg_b_name = element(var.etcd_autoscaling_groups, 1)
+    asg_c_name = element(var.etcd_autoscaling_groups, 2)
+  }
+}

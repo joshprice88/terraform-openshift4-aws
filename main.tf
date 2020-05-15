@@ -1,10 +1,20 @@
 locals {
   tags = merge(
     {
-      "kubernetes.io/cluster/${var.cluster_id}" = "owned"
+      key = "kubernetes.io/cluster/${var.cluster_id}",
+      value = "owned",
+      propagate_at_launch = true
     },
     var.aws_extra_tags,
   )
+
+  asg_tags = [
+    {
+      key = "kubernetes.io/cluster/${var.cluster_id}",
+      value = "owned",
+      propagate_at_launch = true
+    }
+  ]
 }
 
 provider "aws" {
@@ -72,7 +82,7 @@ module "dns" {
   cluster_domain           = "${var.clustername}.${var.base_domain}"
   cluster_id               = var.cluster_id
   etcd_count               = length(var.aws_azs)
-  etcd_ip_addresses        = flatten(module.masters.ip_addresses)
+  etcd_autoscaling_groups        = flatten(module.masters.master_autoscaling_groups)
   tags                     = local.tags
   vpc_id                   = module.vpc.vpc_id
   publish_strategy         = var.aws_publish_strategy
@@ -119,6 +129,7 @@ module "masters" {
   instance_type = var.aws_master_instance_type
 
   tags = local.tags
+  asg_tags = local.asg_tags
 
   availability_zones       = var.aws_azs
   az_to_subnet_id          = module.vpc.az_to_private_subnet_id

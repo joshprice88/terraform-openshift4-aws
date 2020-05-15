@@ -453,6 +453,10 @@ resource "null_resource" "generate_ignition_config" {
   provisioner "local-exec" {
     command = "${path.module}/openshift-install --dir=${path.module}/temp create ignition-configs"
   }
+  
+  provisioner "local-exec" {
+    command = "bash ${path.module}/master_etcd_ebs_mount.sh ${path.module}"
+  }
 }
 
 resource "null_resource" "cleanup" {

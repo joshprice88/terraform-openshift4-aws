@@ -8,8 +8,8 @@ variable "etcd_count" {
   type        = string
 }
 
-variable "etcd_ip_addresses" {
-  description = "List of string IPs for machines running etcd members."
+variable "etcd_autoscaling_groups" {
+  description = "List of autoscaling groups for machines running etcd members."
   type        = list(string)
   default     = []
 }

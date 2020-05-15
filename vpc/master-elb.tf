@@ -48,7 +48,7 @@ resource "aws_lb_target_group" "api_internal" {
   port     = 6443
   vpc_id   = data.aws_vpc.cluster_vpc.id
 
-  target_type = "ip"
+  target_type = "instance"
 
   tags = merge(
     {
@@ -75,7 +75,7 @@ resource "aws_lb_target_group" "api_external" {
   port     = 6443
   vpc_id   = data.aws_vpc.cluster_vpc.id
 
-  target_type = "ip"
+  target_type = "instance"
 
   tags = merge(
     {
@@ -100,7 +100,7 @@ resource "aws_lb_target_group" "services" {
   port     = 22623
   vpc_id   = data.aws_vpc.cluster_vpc.id
 
-  target_type = "ip"
+  target_type = "instance"
 
   tags = merge(
     {
