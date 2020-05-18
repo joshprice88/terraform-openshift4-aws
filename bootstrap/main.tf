@@ -156,7 +156,7 @@ resource "aws_lb_target_group_attachment" "bootstrap" {
   count = local.public_endpoints ? var.target_group_arns_length : var.target_group_arns_length - 1
 
   target_group_arn = var.target_group_arns[count.index]
-  target_id        = aws_instance.bootstrap.id
+  target_id        = aws_instance.bootstrap.private_ip
 }
 
 resource "aws_security_group" "bootstrap" {

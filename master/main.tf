@@ -173,7 +173,6 @@ resource "aws_autoscaling_group" "master-az-a" {
   }
 
   health_check_grace_period = 600
-  target_group_arns = var.target_group_arns
 
   tags = concat([
     {
@@ -211,7 +210,6 @@ resource "aws_autoscaling_group" "master-az-b" {
   }
 
   health_check_grace_period = 600
-  target_group_arns = var.target_group_arns
 
   tags = concat([
     {
@@ -249,7 +247,6 @@ resource "aws_autoscaling_group" "master-az-c" {
   }
 
   health_check_grace_period = 600
-  target_group_arns = var.target_group_arns
 
   tags = concat([
     {

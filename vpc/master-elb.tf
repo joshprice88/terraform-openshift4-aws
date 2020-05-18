@@ -48,7 +48,7 @@ resource "aws_lb_target_group" "api_internal" {
   port     = 6443
   vpc_id   = data.aws_vpc.cluster_vpc.id
 
-  target_type = "instance"
+  target_type = "ip"
 
   tags = merge(
     {
@@ -75,7 +75,7 @@ resource "aws_lb_target_group" "api_external" {
   port     = 6443
   vpc_id   = data.aws_vpc.cluster_vpc.id
 
-  target_type = "instance"
+  target_type = "ip"
 
   tags = merge(
     {
@@ -90,7 +90,7 @@ resource "aws_lb_target_group" "api_external" {
     interval            = 10
     port                = 6443
     protocol            = "HTTPS"
-    path                = "/readyz"
+    path                 = "/readyz"
   }
 }
 
@@ -100,7 +100,7 @@ resource "aws_lb_target_group" "services" {
   port     = 22623
   vpc_id   = data.aws_vpc.cluster_vpc.id
 
-  target_type = "instance"
+  target_type = "ip"
 
   tags = merge(
     {
